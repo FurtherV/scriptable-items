@@ -1,0 +1,44 @@
+{
+  "id": "scriptable-items",
+  "title": "Scriptable Items",
+  "description": "",
+  "version": "1.0.0",
+  "library": "false",
+  "manifestPlusVersion": "1.2.0",
+  "compatibility": {
+    "minimum": 11,
+    "verified": 11,
+    "maximum": 11
+  },
+  "authors": [
+    {
+      "name": "FurtherV",
+      "url": "https://github.com/FurtherV",
+      "discord": "furtherv"
+    }
+  ],
+  "relationships": {
+    "systems": [],
+    "requires": []
+  },
+  "esmodules": ["scripts/scriptable-items.mjs"],
+  "styles": ["styles/scriptable-items.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs", "json"],
+      "paths": ["templates", "lang", "styles/scriptable-items.css"]
+    }
+  },
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE",
+  "readme": "README.md"
+}

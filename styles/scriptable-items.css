@@ -1,0 +1,38 @@
+.scriptable-items.scripts-overview {
+  min-height: 200px;
+  max-height: 95%;
+  min-width: 480px;
+}
+.scriptable-items .scripts-element {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+.scriptable-items .scripts-element .scripts-list {
+  flex-grow: 1;
+}
+.scriptable-items .scripts-element .script-column,
+.scriptable-items .scripts-element .script-controls {
+  text-align: center;
+  border-inline: 1px solid var(--dnd5e-color-faint);
+  font-size: var(--font-size-12);
+}
+.scriptable-items .scripts-element .script-controls {
+  border: none;
+}
+.app.sheet form.script-config button.trigger-control {
+  width: auto;
+  flex: 0 0 auto;
+}
+.app.sheet form.script-config a.trigger-control {
+  float: right;
+  text-align: right;
+}
+.app.sheet form.script-config .triggers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.app.sheet form.script-config multi-select .tags .tag {
+  cursor: pointer;
+}

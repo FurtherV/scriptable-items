@@ -1,0 +1,39 @@
+<form class="editable flexcol" , autocomplete="off">
+  <div class="scripts-element">
+    <ol class="items-list scripts-list">
+      <li class="items-header flexrow">
+        <h3 class="item-name flexrow">Scripts</h3>
+        <div class="script-column">Triggers</div>
+        <div class="item-controls script-controls flexrow">
+          <a class="script-control" data-action="create">
+            <i class="fas fa-plus"></i>
+            Add
+          </a>
+        </div>
+      </li>
+      <ol class="item-list">
+        {{#each scripts}}
+          <li
+            class="item script flexrow"
+            data-script-id="{{id}}"
+            draggable="false"
+          >
+            <div class="item-name script-name flexrow">
+              <img class="item-image" src="{{img}}" />
+              <h4>{{name}}</h4>
+            </div>
+            <div class="script-column">{{triggersText}}</div>
+            <div class="item-controls script-controls flexrow">
+              <a class="script-control" data-action="edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a class="script-control" data-action="delete">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </ol>
+  </div>
+</form>

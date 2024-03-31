@@ -1,0 +1,64 @@
+<form class="{{cssClass}} flexcol script-config" autocomplete="off">
+  <header class="sheet-header">
+    <img
+      src="{{data.img}}"
+      data-edit="img"
+      title="{{data.name}}"
+      height="64"
+      width="64"
+    />
+    <h1><input
+        name="name"
+        type="text"
+        value="{{data.name}}"
+        placeholder="{{localize 'Name'}}"
+      /></h1>
+  </header>
+
+  {{!-- <div class="form-group">
+    <label>Triggers</label>
+    <div class="form-fields trigger-controls">
+      <select>
+        {{selectOptions availableTriggers}}
+      </select>
+      <button class="trigger-control" type="button" data-action="addTrigger">
+        <i class="fas fa-plus"></i>
+        Add
+      </button>
+    </div>
+  </div>
+
+  <ol class="form-group stacked triggers">
+    {{#each data.triggers}}
+      <li class="flexrow" data-trigger-id="{{this}}">
+        <span>{{localize (concat "SCRIPTABLE-ITEMS.Trigger." this)}}</span>
+        <a class="trigger-control" data-action="removeTrigger">
+          <i class="fas fa-trash"></i>
+        </a>
+      </li>
+    {{/each}}
+  </ol> --}}
+
+  <div class="form-group">
+    <label>Triggers</label>
+    <multi-select name="triggers">
+      {{#each triggers}}
+        <option value={{@key}} {{selected}}>{{label}}</option>
+      {{/each}}
+    </multi-select>
+  </div>
+
+  <div class="form-group stacked command">
+    <label>{{localize "Command"}}</label>
+    <textarea name="command">{{data.command}}</textarea>
+  </div>
+
+  <footer class="sheet-footer flexrow">
+    <button type="submit">
+      <i class="fas fa-save"></i>
+      {{localize "SCRIPTABLE-ITEMS.Script.Save"}}</button>
+    <button class="execute" type="button">
+      <i class="fas fa-dice-d20"></i>
+      {{localize "SCRIPTABLE-ITEMS.Script.Execute"}}</button>
+  </footer>
+</form>

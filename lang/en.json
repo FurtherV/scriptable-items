@@ -1,0 +1,13 @@
+{
+  "SCRIPTABLE-ITEMS": {
+    "Trigger": {
+      "button": "On Button Click",
+      "preUseItem": "On Pre Use Item"
+    },
+    "Script": {
+      "Label": "Script",
+      "Save": "Save Script",
+      "Execute": "Execute Script"
+    }
+  }
+}
