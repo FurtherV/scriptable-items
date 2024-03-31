@@ -1,4 +1,3 @@
-import { SetField, StringField } from "../foundry/common/data/fields.mjs";
 import { LANG_ID } from "./constants.mjs";
 
 export class ScriptModel extends foundry.abstract.DataModel {
