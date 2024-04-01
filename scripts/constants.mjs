@@ -8,5 +8,8 @@ const TRIGGER = {
   BUTTON: "button",
   PRE_USE: "preUseItem",
 };
+const SETTING = {
+  HEADER_BUTTON_PERMISSION: "headerButtonPermission",
+};
 
-export { MODULE_ID, LANG_ID, TEMPLATES_FOLDER, FLAG, TRIGGER };
+export { MODULE_ID, LANG_ID, TEMPLATES_FOLDER, FLAG, TRIGGER, SETTING };

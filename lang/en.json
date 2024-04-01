@@ -8,6 +8,12 @@
       "Label": "Script",
       "Save": "Save Script",
       "Execute": "Execute Script"
+    },
+    "Setting": {
+      "headerButtonPermission": {
+        "Name": "Button Permission Level",
+        "Hint": "The 'Scriptable Items' button in item sheets will be hidden for any user with a role less than the chosen role."
+      }
     }
   }
 }

@@ -1,12 +1,19 @@
-import { MODULE_ID, TRIGGER } from "./constants.mjs";
+import { MODULE_ID, SETTING, TRIGGER } from "./constants.mjs";
 import { ScriptManager } from "./script-manager.mjs";
 import { ScriptsOverview } from "./scripts-overview.mjs";
+import { getSetting, registerModuleSettings } from "./settings.mjs";
+
+Hooks.once("init", () => {
+  registerModuleSettings();
+});
 
 Hooks.on("getItemSheetHeaderButtons", (app, buttons) => {
+  if (!game.user.hasRole(getSetting(SETTING.HEADER_BUTTON_PERMISSION))) return;
+
   const item = app.document;
   buttons.unshift({
     class: MODULE_ID,
-    icon: "fas fa-sd-card",
+    icon: "fas fa-play",
     label: game.modules.get(MODULE_ID).title,
     onclick: () => new ScriptsOverview(item).render(true),
   });

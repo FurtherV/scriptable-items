@@ -32,7 +32,8 @@ Available triggers are currently:
 
 ### 0.1.2
 
-- Added `message` argument to scripts when triggered via chat card button.
+- Added a module setting to show the header button only to users with the specified minimum role
+- Added `message` argument to scripts when triggered via chat card button
 
 ### 0.1.1
 
