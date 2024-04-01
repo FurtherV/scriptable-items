@@ -19,6 +19,7 @@ A script receives the following arguments (very similar to a normal Foundry macr
 - `character` the current user's character or null
 - `trigger` the trigger of the script, such as a button press or on item use.
   Is equal to `debug` when ran from the script's config sheet.
+- `message` the chat message which triggered the script (only `trigger === "button"`)
 
 Available triggers are currently:
 
@@ -28,6 +29,10 @@ Available triggers are currently:
 - A button in the item's chat card
 
 ## Changelog
+
+### 0.1.2
+
+- Added `message` argument to scripts when triggered via chat card button.
 
 ### 0.1.1
 

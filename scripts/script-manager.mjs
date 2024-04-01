@@ -1,4 +1,4 @@
-import { FLAGS, MODULE_ID } from "./constants.mjs";
+import { FLAG, MODULE_ID } from "./constants.mjs";
 import { ScriptModel } from "./script-model.mjs";
 
 export class ScriptManager {
@@ -8,7 +8,7 @@ export class ScriptManager {
    */
   static hasScripts(item) {
     if (item == null) return false;
-    const scriptsObj = item.getFlag(MODULE_ID, FLAGS.SCRIPTS);
+    const scriptsObj = item.getFlag(MODULE_ID, FLAG.SCRIPTS);
     return scriptsObj != null && !!Object.keys(scriptsObj).length;
   }
 
@@ -18,7 +18,7 @@ export class ScriptManager {
    */
   static getScripts(item) {
     if (!this.hasScripts(item)) return [];
-    const scriptsObj = item.getFlag(MODULE_ID, FLAGS.SCRIPTS);
+    const scriptsObj = item.getFlag(MODULE_ID, FLAG.SCRIPTS);
     return Object.entries(scriptsObj).map(([k, v]) => {
       return new ScriptModel(
         {
@@ -47,7 +47,7 @@ export class ScriptManager {
    */
   static getScriptWithId(item, id) {
     if (!this.hasScripts(item)) return null;
-    const scriptObj = item.getFlag(MODULE_ID, `${FLAGS.SCRIPTS}.${id}`);
+    const scriptObj = item.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${id}`);
     if (scriptObj == null) return null;
     return new ScriptModel(
       {

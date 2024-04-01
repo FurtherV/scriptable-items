@@ -1,4 +1,4 @@
-import { FLAGS, MODULE_ID, TEMPLATES_FOLDER } from "./constants.mjs";
+import { FLAG, MODULE_ID, TEMPLATES_FOLDER } from "./constants.mjs";
 import { ScriptConfig } from "./script-config.mjs";
 import { ScriptModel } from "./script-model.mjs";
 
@@ -25,7 +25,7 @@ export class ScriptsOverview extends FormApplication {
   getData(options = {}) {
     const data = super.getData();
     data.scripts = Object.entries(
-      this.object.getFlag(MODULE_ID, FLAGS.SCRIPTS) ?? {}
+      this.object.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {}
     ).map(([key, value]) => {
       const data = value;
       data._id = key;
@@ -87,10 +87,7 @@ export class ScriptsOverview extends FormApplication {
         return new ScriptConfig(script).render(true);
       }
       case "delete": {
-        return this.object.unsetFlag(
-          MODULE_ID,
-          `${FLAGS.SCRIPTS}.${script.id}`
-        );
+        return this.object.unsetFlag(MODULE_ID, `${FLAG.SCRIPTS}.${script.id}`);
       }
     }
   }
@@ -104,7 +101,7 @@ export class ScriptsOverview extends FormApplication {
 
     return new ScriptModel(
       foundry.utils.mergeObject(
-        this.object.getFlag(MODULE_ID, `${FLAGS.SCRIPTS}.${scriptId}`),
+        this.object.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`),
         {
           _id: scriptId,
         }
@@ -121,9 +118,9 @@ export class ScriptsOverview extends FormApplication {
   static async _embedScript(item, script) {
     const data = script.toObject();
     await item.update(
-      { [`flags.${MODULE_ID}.${FLAGS.SCRIPTS}.-=${data._id}`]: null },
+      { [`flags.${MODULE_ID}.${FLAG.SCRIPTS}.-=${data._id}`]: null },
       { render: false, noHook: true }
     );
-    return item.setFlag(MODULE_ID, `${FLAGS.SCRIPTS}.${data._id}`, data);
+    return item.setFlag(MODULE_ID, `${FLAG.SCRIPTS}.${data._id}`, data);
   }
 }

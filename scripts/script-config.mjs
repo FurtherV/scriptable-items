@@ -1,9 +1,9 @@
 import {
-  FLAGS,
+  FLAG,
   LANG_ID,
   MODULE_ID,
   TEMPLATES_FOLDER,
-  TRIGGERS,
+  TRIGGER,
 } from "./constants.mjs";
 import { ScriptModel } from "./script-model.mjs";
 import { ScriptsOverview } from "./scripts-overview.mjs";
@@ -47,7 +47,7 @@ export class ScriptConfig extends MacroConfig {
 
     context.data = foundry.utils.mergeObject(context.data, this.script);
 
-    context.triggers = Object.values(TRIGGERS).reduce((obj, x) => {
+    context.triggers = Object.values(TRIGGER).reduce((obj, x) => {
       obj[x] = {
         label: game.i18n.localize(`${LANG_ID}.Trigger.${x}`),
         selected: context.data.triggers.has(x) ? "selected" : "",

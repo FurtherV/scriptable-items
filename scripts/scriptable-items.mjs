@@ -1,4 +1,4 @@
-import { MODULE_ID, TRIGGERS } from "./constants.mjs";
+import { MODULE_ID, TRIGGER } from "./constants.mjs";
 import { ScriptManager } from "./script-manager.mjs";
 import { ScriptsOverview } from "./scripts-overview.mjs";
 
@@ -17,18 +17,18 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
     return true;
   }
 
-  const scripts = ScriptManager.getScriptsWithTrigger(item, TRIGGERS.PRE_USE);
+  const scripts = ScriptManager.getScriptsWithTrigger(item, TRIGGER.PRE_USE);
   if (!scripts.length) return true;
 
   let script = scripts[0];
   if (scripts.length > 1) {
     ui.notifications.error(
-      `The ${TRIGGERS.PRE_USE} trigger currently only supports one script per item.`
+      `The ${TRIGGER.PRE_USE} trigger currently only supports one script per item.`
     );
     return true;
   }
 
-  script.executeScript({ trigger: TRIGGERS.PRE_USE }).then((result) => {
+  script.executeScript({ trigger: TRIGGER.PRE_USE }).then((result) => {
     if (result === true) {
       options.skipScripts = true;
       item.use(config, options);
@@ -49,7 +49,7 @@ Hooks.on("dnd5e.preDisplayCard", (item, data) => {
   const buttonContainer = el.querySelector(".card-buttons");
   for (const script of ScriptManager.getScriptsWithTrigger(
     item,
-    TRIGGERS.BUTTON
+    TRIGGER.BUTTON
   )) {
     const newButton = document.createElement("BUTTON");
     newButton.setAttribute("data-action", `${MODULE_ID}-run`);
@@ -69,7 +69,10 @@ Hooks.on("dnd5e.renderChatMessage", (message, html) => {
       const itemUuid = message.getFlag("dnd5e", "use.itemUuid");
       const item = await fromUuid(itemUuid);
       const script = ScriptManager.getScriptWithId(item, scriptId);
-      await script.executeScript({ trigger: TRIGGERS.BUTTON });
+      await script.executeScript({
+        trigger: TRIGGER.BUTTON,
+        message: message,
+      });
     });
   });
 });
