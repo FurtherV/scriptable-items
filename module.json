@@ -1,14 +1,13 @@
 {
   "id": "scriptable-items",
   "title": "Scriptable Items",
-  "description": "",
-  "version": "1.0.0",
+  "description": "Allows you to attach one or more JS scripts to an item, which are triggered by user selectable triggers.",
+  "version": "0.1.0",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
     "minimum": 11,
-    "verified": 11,
-    "maximum": 11
+    "verified": 11
   },
   "authors": [
     {
@@ -18,8 +17,16 @@
     }
   ],
   "relationships": {
-    "systems": [],
-    "requires": []
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "3.1.0",
+          "maximum": "3.1.9"
+        }
+      }
+    ]
   },
   "esmodules": ["scripts/scriptable-items.mjs"],
   "styles": ["styles/scriptable-items.css"],
@@ -36,9 +43,9 @@
       "paths": ["templates", "lang", "styles/scriptable-items.css"]
     }
   },
-  "url": "",
-  "manifest": "",
-  "download": "",
+  "url": "https://github.com/FurtherV/scriptable-items",
+  "manifest": "https://github.com/FurtherV/scriptable-items/releases/latest/download/module.json",
+  "download": "AUTOMATIC",
   "license": "LICENSE",
   "readme": "README.md"
 }
