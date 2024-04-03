@@ -69,7 +69,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Extract version embedded in the tag.
       # This step expects the tag to be one of the following formats:
@@ -95,13 +95,12 @@ jobs:
           files: "module.json"
         env:
           version: ${{steps.get_version.outputs.version-without-v}}
-          url: ${{ env.project_url }}
           manifest: ${{ env.latest_manifest_url }}
           download: ${{ env.release_module_url }}
           flags.hotReload: false
 
       # Set up Node
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "16.x"
@@ -147,7 +146,7 @@ jobs:
         with:
           allowUpdates: true
           name: ${{ github.event.release.name }}
-          draft: ${{ github.event.release.unpublished }}
+          draft: ${{ github.event.release.draft }}
           prerelease: ${{ github.event.release.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./module.json, ./module.zip"
