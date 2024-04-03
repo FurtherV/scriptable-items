@@ -1,8 +1,59 @@
-import { LANG_ID } from "./constants.mjs";
+import { FLAG, LANG_ID, MODULE_ID } from "../constants.mjs";
 
 export class ScriptModel extends foundry.abstract.DataModel {
   static DEFAULT_ICON = "icons/svg/dice-target.svg";
+
   static DEFAULT_NAME = "New Script";
+
+  /**
+   * @param {Item} item
+   * @param {ScriptModel} script
+   * @returns {Promise}
+   */
+  static async update(item, script) {
+    const data = script.toObject();
+    await item.update(
+      { [`flags.${MODULE_ID}.${FLAG.SCRIPTS}.-=${data._id}`]: null },
+      { render: false, noHook: true },
+    );
+    return item.setFlag(MODULE_ID, `${FLAG.SCRIPTS}.${data._id}`, data);
+  }
+
+  /**
+   * @param {Item} item
+   * @param {string} scriptId
+   * @returns {Promise}
+   */
+  static async delete(item, scriptId) {
+    return item.unsetFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`);
+  }
+
+  /**
+   * @param {Item} item
+   * @param {string} scriptId
+   * @returns {ScriptModel | null}
+   */
+  static async getById(item, scriptId) {
+    const data = item.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`);
+    if (data == null) return null;
+    return new ScriptModel(
+      {
+        _id: scriptId,
+        ...data,
+      },
+      { parent: item },
+    );
+  }
+
+  /**
+   * @param {Item} item
+   * @returns {ScriptModel[]}
+   */
+  static async getAll(item) {
+    const ids = Object.keys(item.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {});
+    if (!ids.length) return [];
+    return ids.map((x) => this.getById(item, x));
+  }
 
   /** @inheritdoc */
   static defineSchema() {
@@ -36,34 +87,9 @@ export class ScriptModel extends foundry.abstract.DataModel {
         {
           required: true,
           label: "Trigger Set",
-        }
+        },
       ),
     };
-  }
-
-  /**
-   * @type {string}
-   */
-  get id() {
-    return this._id;
-  }
-
-  /**
-   * @type {string}
-   */
-  get triggersText() {
-    return !!this.triggers.size
-      ? Array.from(this.triggers)
-          .map((x) => game.i18n.localize(`${LANG_ID}.Trigger.${x}`))
-          .join(", ")
-      : "None";
-  }
-
-  /**
-   * @type {Item}
-   */
-  get item() {
-    return this.parent;
   }
 
   /**
@@ -87,7 +113,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
     const argNames = Object.keys(scope);
     if (argNames.some((k) => Number.isNumeric(k))) {
       throw new Error(
-        "Illegal numeric Script parameter passed to execution scope."
+        "Illegal numeric Script parameter passed to execution scope.",
       );
     }
     const argValues = Object.values(scope);
@@ -101,7 +127,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
       "character",
       "trigger",
       ...argNames,
-      `{${this.command}\n}`
+      `{${this.command}\n}`,
     );
 
     // Attempt script execution
@@ -114,12 +140,37 @@ export class ScriptModel extends foundry.abstract.DataModel {
         token,
         character,
         trigger,
-        ...argValues
+        ...argValues,
       );
     } catch (err) {
       ui.notifications.error(
-        "There was an error in your script syntax. See the console (F12) for details."
+        "There was an error in your script syntax. See the console (F12) for details.",
       );
     }
+  }
+
+  /**
+   * @type {string}
+   */
+  get id() {
+    return this._id;
+  }
+
+  /**
+   * @type {string}
+   */
+  get triggersText() {
+    return this.triggers.size
+      ? Array.from(this.triggers)
+          .map((x) => game.i18n.localize(`${LANG_ID}.Trigger.${x}`))
+          .join(", ")
+      : "None";
+  }
+
+  /**
+   * @type {Item}
+   */
+  get item() {
+    return this.parent;
   }
 }

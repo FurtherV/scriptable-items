@@ -1,0 +1,2 @@
+# Ignore all CSS files because we use LESS
+**/*.css

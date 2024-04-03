@@ -1,11 +1,5 @@
-import {
-  FLAG,
-  LANG_ID,
-  MODULE_ID,
-  TEMPLATES_FOLDER,
-  TRIGGER,
-} from "./constants.mjs";
-import { ScriptModel } from "./script-model.mjs";
+import { LANG_ID, TEMPLATES_FOLDER, TRIGGER } from "../constants.mjs";
+import { ScriptModel } from "../data/script-model.mjs";
 import { ScriptsOverview } from "./scripts-overview.mjs";
 
 export class ScriptConfig extends MacroConfig {
@@ -22,7 +16,7 @@ export class ScriptConfig extends MacroConfig {
         img: script.img,
         command: script.command,
       }),
-      options
+      options,
     );
 
     this.script = script;
@@ -65,7 +59,7 @@ export class ScriptConfig extends MacroConfig {
      * @type {HTMLFormElement}
      */
     const form = html[0];
-    form.querySelectorAll(`.trigger-control`).forEach((x) => {
+    form.querySelectorAll(".trigger-control").forEach((x) => {
       x.addEventListener("click", this._onTriggerAction.bind(this));
     });
   }
@@ -87,7 +81,7 @@ export class ScriptConfig extends MacroConfig {
       case "addTrigger": {
         const newTrigger = button
           .closest("form")
-          .querySelector(`.trigger-controls select`).value;
+          .querySelector(".trigger-controls select").value;
         if (newTrigger == null) break;
 
         this.script.updateSource({
@@ -99,11 +93,11 @@ export class ScriptConfig extends MacroConfig {
       }
       case "removeTrigger": {
         const triggerToRemove =
-          button.closest(`[data-trigger-id]`)?.dataset?.triggerId;
+          button.closest("[data-trigger-id]")?.dataset?.triggerId;
 
         this.script.updateSource({
           triggers: [...this.script.triggers].filter(
-            (x) => x !== triggerToRemove
+            (x) => x !== triggerToRemove,
           ),
         });
 
@@ -125,7 +119,7 @@ export class ScriptConfig extends MacroConfig {
       ui.notifications.error(err);
       return this.render();
     }
-    return ScriptsOverview._embedScript(this.script.parent, this.script);
+    return ScriptModel.update(this.script.parent, this.script);
   }
 
   /** @inheritdoc */
@@ -133,7 +127,7 @@ export class ScriptConfig extends MacroConfig {
     event.preventDefault();
     const command = event.currentTarget
       .closest("form")
-      .querySelector(`[name="command"]`).value;
+      .querySelector('[name="command"]').value;
     this.script.updateSource({
       command: command,
     });

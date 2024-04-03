@@ -1,7 +1,11 @@
+/**
+ * Main Module File
+ */
+
 import { MODULE_ID, SETTING, TRIGGER } from "./constants.mjs";
-import { ScriptManager } from "./script-manager.mjs";
-import { ScriptsOverview } from "./scripts-overview.mjs";
+import { ScriptsOverview } from "./applications/scripts-overview.mjs";
 import { getSetting, registerModuleSettings } from "./settings.mjs";
+import { ScriptModel } from "./data/script-model.mjs";
 
 Hooks.once("init", () => {
   registerModuleSettings();
@@ -24,13 +28,15 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
     return true;
   }
 
-  const scripts = ScriptManager.getScriptsWithTrigger(item, TRIGGER.PRE_USE);
+  const scripts = ScriptModel.getAll(item).filter((x) =>
+    x.triggers.has(TRIGGER.PRE_USE),
+  );
   if (!scripts.length) return true;
 
   let script = scripts[0];
   if (scripts.length > 1) {
     ui.notifications.error(
-      `The ${TRIGGER.PRE_USE} trigger currently only supports one script per item.`
+      `The ${TRIGGER.PRE_USE} trigger currently only supports one script per item.`,
     );
     return true;
   }
@@ -46,7 +52,10 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
 });
 
 Hooks.on("dnd5e.preDisplayCard", (item, data) => {
-  if (!ScriptManager.hasScripts(item)) return;
+  const scripts = ScriptModel.getAll(item).filter((x) =>
+    x.triggers.has(TRIGGER.BUTTON),
+  );
+  if (!scripts.length) return;
 
   // Convert cards HTML string to workable DOM element
   const el = document.createElement("DIV");
@@ -54,10 +63,7 @@ Hooks.on("dnd5e.preDisplayCard", (item, data) => {
 
   // Add button for each script with button trigger to the card
   const buttonContainer = el.querySelector(".card-buttons");
-  for (const script of ScriptManager.getScriptsWithTrigger(
-    item,
-    TRIGGER.BUTTON
-  )) {
+  for (const script of scripts) {
     const newButton = document.createElement("BUTTON");
     newButton.setAttribute("data-action", `${MODULE_ID}-run`);
     newButton.setAttribute("data-script-id", script.id);
@@ -75,7 +81,7 @@ Hooks.on("dnd5e.renderChatMessage", (message, html) => {
       const scriptId = event.currentTarget.dataset.scriptId;
       const itemUuid = message.getFlag("dnd5e", "use.itemUuid");
       const item = await fromUuid(itemUuid);
-      const script = ScriptManager.getScriptWithId(item, scriptId);
+      const script = ScriptModel.getById(item, scriptId);
       await script.executeScript({
         trigger: TRIGGER.BUTTON,
         message: message,

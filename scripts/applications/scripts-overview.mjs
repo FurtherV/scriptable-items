@@ -1,6 +1,6 @@
-import { FLAG, MODULE_ID, TEMPLATES_FOLDER } from "./constants.mjs";
+import { FLAG, MODULE_ID, TEMPLATES_FOLDER } from "../constants.mjs";
 import { ScriptConfig } from "./script-config.mjs";
-import { ScriptModel } from "./script-model.mjs";
+import { ScriptModel } from "../data/script-model.mjs";
 
 export class ScriptsOverview extends FormApplication {
   /** @inheritdoc */
@@ -25,7 +25,7 @@ export class ScriptsOverview extends FormApplication {
   getData(options = {}) {
     const data = super.getData();
     data.scripts = Object.entries(
-      this.object.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {}
+      this.object.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {},
     ).map(([key, value]) => {
       const data = value;
       data._id = key;
@@ -44,10 +44,7 @@ export class ScriptsOverview extends FormApplication {
     const scriptsElement = form.querySelector(".scripts-element");
     for (const control of scriptsElement.querySelectorAll("[data-action]")) {
       control.addEventListener("click", (event) => {
-        this._onAction(
-          event.currentTarget,
-          event.currentTarget.dataset["action"]
-        );
+        this._onAction(event.currentTarget, event.currentTarget.dataset.action);
       });
     }
   }
@@ -65,9 +62,7 @@ export class ScriptsOverview extends FormApplication {
   }
 
   /** @inheritdoc */
-  async _updateObject(event, formData) {
-    return;
-  }
+  async _updateObject(event, formData) {}
 
   /**
    * @param {EventTarget} target
@@ -81,13 +76,13 @@ export class ScriptsOverview extends FormApplication {
     switch (action) {
       case "create": {
         const newScript = new ScriptModel({}, { parent: this.object });
-        return ScriptsOverview._embedScript(this.object, newScript);
+        return ScriptModel.update(this.object, newScript);
       }
       case "edit": {
         return new ScriptConfig(script).render(true);
       }
       case "delete": {
-        return this.object.unsetFlag(MODULE_ID, `${FLAG.SCRIPTS}.${script.id}`);
+        return ScriptModel.delete(this.object, script.id);
       }
     }
   }
@@ -104,23 +99,9 @@ export class ScriptsOverview extends FormApplication {
         this.object.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`),
         {
           _id: scriptId,
-        }
+        },
       ),
-      { parent: this.object }
+      { parent: this.object },
     );
-  }
-
-  /**
-   * @param {Item} item
-   * @param {ScriptModel} script
-   * @returns {Promise}
-   */
-  static async _embedScript(item, script) {
-    const data = script.toObject();
-    await item.update(
-      { [`flags.${MODULE_ID}.${FLAG.SCRIPTS}.-=${data._id}`]: null },
-      { render: false, noHook: true }
-    );
-    return item.setFlag(MODULE_ID, `${FLAG.SCRIPTS}.${data._id}`, data);
   }
 }
