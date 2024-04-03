@@ -1,4 +1,4 @@
-import { FLAG, MODULE_ID, TEMPLATES_FOLDER } from "../constants.mjs";
+import { FLAG, LANG_ID, MODULE_ID, TEMPLATES_FOLDER } from "../constants.mjs";
 import { ScriptConfig } from "./script-config.mjs";
 import { ScriptModel } from "../data/script-model.mjs";
 
@@ -82,6 +82,21 @@ export class ScriptsOverview extends FormApplication {
         return new ScriptConfig(script).render(true);
       }
       case "delete": {
+        const prompt = await Dialog.confirm({
+          title: game.i18n.format(`${LANG_ID}.Dialog.ConfirmDelete.Title`, {
+            name: script.name,
+            type: game.i18n.localize(`${LANG_ID}.Script.Label`),
+          }),
+          content: game.i18n.format(
+            `${LANG_ID}.Dialog.ConfirmDelete.AreYouSure`,
+            {
+              name: script.name,
+              type: game.i18n.localize(`${LANG_ID}.Script.Label`),
+            },
+          ),
+          options: { id: `${MODULE_ID}-confirm-delete-${script.id}` },
+        });
+        if (!prompt) return false;
         return ScriptModel.delete(this.object, script.id);
       }
     }

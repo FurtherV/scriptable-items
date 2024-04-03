@@ -14,6 +14,12 @@
         "Name": "Button Permission Level",
         "Hint": "The 'Scriptable Items' button in item sheets will be hidden for any user with a role less than the chosen role."
       }
+    },
+    "Dialog": {
+      "ConfirmDelete": {
+        "Title": "Delete {type}: {name}",
+        "AreYouSure": "Are you sure that you want to delete the {type} '{name}'? This action cannot be undone."
+      }
     }
   }
 }
