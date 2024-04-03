@@ -23,6 +23,14 @@ export function registerModuleSettings() {
     }, {}),
     default: Object.keys(CONST.USER_ROLE_NAMES).at(-1),
   });
+
+  _registerSetting(SETTING.SHOW_HEADER_BUTTON_LABEL, {
+    scope: "world",
+    config: true,
+    requiresReload: false,
+    type: Boolean,
+    default: true,
+  });
 }
 
 /**

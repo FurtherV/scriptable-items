@@ -18,7 +18,9 @@ Hooks.on("getItemSheetHeaderButtons", (app, buttons) => {
   buttons.unshift({
     class: MODULE_ID,
     icon: "fas fa-play",
-    label: game.modules.get(MODULE_ID).title,
+    label: getSetting(SETTING.SHOW_HEADER_BUTTON_LABEL)
+      ? game.modules.get(MODULE_ID).title
+      : undefined,
     onclick: () => new ScriptsOverview(item).render(true),
   });
 });

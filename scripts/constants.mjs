@@ -10,6 +10,7 @@ const TRIGGER = {
 };
 const SETTING = {
   HEADER_BUTTON_PERMISSION: "headerButtonPermission",
+  SHOW_HEADER_BUTTON_LABEL: "showHeaderButtonLabel",
 };
 
 export { MODULE_ID, LANG_ID, TEMPLATES_FOLDER, FLAG, TRIGGER, SETTING };
