@@ -11,12 +11,15 @@ export class ScriptModel extends foundry.abstract.DataModel {
    * @returns {Promise}
    */
   static async update(item, script) {
+    const scriptId = script.id;
+
     const data = script.toObject();
+    delete data._id;
     await item.update(
-      { [`flags.${MODULE_ID}.${FLAG.SCRIPTS}.-=${data._id}`]: null },
+      { [`flags.${MODULE_ID}.${FLAG.SCRIPTS}.-=${scriptId}`]: null },
       { render: false, noHook: true },
     );
-    return item.setFlag(MODULE_ID, `${FLAG.SCRIPTS}.${data._id}`, data);
+    await item.setFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`, data);
   }
 
   /**
@@ -33,13 +36,15 @@ export class ScriptModel extends foundry.abstract.DataModel {
    * @param {string} scriptId
    * @returns {ScriptModel | null}
    */
-  static async getById(item, scriptId) {
+  static getById(item, scriptId) {
+    if (item == null || scriptId == null) return null;
+
     const data = item.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`);
     if (data == null) return null;
     return new ScriptModel(
       {
-        _id: scriptId,
         ...data,
+        _id: scriptId,
       },
       { parent: item },
     );
@@ -49,8 +54,8 @@ export class ScriptModel extends foundry.abstract.DataModel {
    * @param {Item} item
    * @returns {ScriptModel[]}
    */
-  static async getAll(item) {
-    const ids = Object.keys(item.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {});
+  static getAll(item) {
+    const ids = Object.keys(item?.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {});
     if (!ids.length) return [];
     return ids.map((x) => this.getById(item, x));
   }

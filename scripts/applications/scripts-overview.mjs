@@ -26,11 +26,18 @@ export class ScriptsOverview extends FormApplication {
     const data = super.getData();
     data.scripts = Object.entries(
       this.object.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {},
-    ).map(([key, value]) => {
-      const data = value;
-      data._id = key;
-      return new ScriptModel(data, { parent: this.object });
-    });
+    )
+      .map(([key, value]) => {
+        const data = value;
+        return new ScriptModel(
+          {
+            ...data,
+            _id: key,
+          },
+          { parent: this.object },
+        );
+      })
+      .sort((a, b) => a.id.localeCompare(b.id));
 
     return data;
   }
@@ -70,7 +77,7 @@ export class ScriptsOverview extends FormApplication {
    */
   async _onAction(target, action) {
     const dataset = target.closest("[data-script-id]")?.dataset;
-    const script = this._getScript(dataset?.scriptId);
+    const script = ScriptModel.getById(this.object, dataset?.scriptId);
     if (action !== "create" && !script) return;
 
     switch (action) {
@@ -100,23 +107,5 @@ export class ScriptsOverview extends FormApplication {
         return ScriptModel.delete(this.object, script.id);
       }
     }
-  }
-
-  /**
-   * @param {string} scriptId
-   * @returns {ScriptModel}
-   */
-  _getScript(scriptId) {
-    if (scriptId == null) return null;
-
-    return new ScriptModel(
-      foundry.utils.mergeObject(
-        this.object.getFlag(MODULE_ID, `${FLAG.SCRIPTS}.${scriptId}`),
-        {
-          _id: scriptId,
-        },
-      ),
-      { parent: this.object },
-    );
   }
 }
