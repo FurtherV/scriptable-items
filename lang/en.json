@@ -19,6 +19,9 @@
       "ConfirmDelete": {
         "Title": "Delete {type}: {name}",
         "AreYouSure": "Are you sure that you want to delete the {type} '{name}'? This action cannot be undone."
+      },
+      "ScriptChoice": {
+        "Prompt": "Choose which script will be executed."
       }
     }
   }

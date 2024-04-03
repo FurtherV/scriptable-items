@@ -2,6 +2,7 @@
  * Main Module File
  */
 
+import { ScriptChoiceDialog } from "./applications/script-choice-dialog.mjs";
 import { MODULE_ID, SETTING, TRIGGER } from "./constants.mjs";
 import { ScriptsOverview } from "./applications/scripts-overview.mjs";
 import { getSetting, registerModuleSettings } from "./settings.mjs";
@@ -35,13 +36,15 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
   );
   if (!scripts.length) return true;
 
-  let script = scripts[0];
-  if (scripts.length > 1) {
-    ui.notifications.error(
-      `The ${TRIGGER.PRE_USE} trigger currently only supports one script per item.`,
-    );
-    return true;
+  if (scripts.length > 1 && options._selectedScript == null) {
+    ScriptChoiceDialog.create(scripts).then((scriptId) => {
+      if (scriptId == null) return;
+      options._selectedScript = scripts.find((x) => x.id === scriptId);
+      item.use(config, options);
+    });
+    return false;
   }
+  const script = options._selectedScript ?? scripts[0];
 
   script.executeScript({ trigger: TRIGGER.PRE_USE }).then((result) => {
     if (result === true) {

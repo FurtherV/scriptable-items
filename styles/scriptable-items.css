@@ -36,3 +36,18 @@
 .app.sheet form.script-config multi-select .tags .tag {
   cursor: pointer;
 }
+.dialog.script-choice-dialog button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.dialog.script-choice-dialog button img {
+  width: 32px;
+  height: 32px;
+  border: none;
+}
+.dialog.script-choice-dialog .dialog-buttons {
+  flex-direction: column;
+}
