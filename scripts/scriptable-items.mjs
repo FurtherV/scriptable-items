@@ -20,7 +20,7 @@ Hooks.on("getItemSheetHeaderButtons", (app, buttons) => {
     class: MODULE_ID,
     icon: "fas fa-play",
     label: getSetting(SETTING.SHOW_HEADER_BUTTON_LABEL)
-      ? game.modules.get(MODULE_ID).title
+      ? "Scriptable Items"
       : undefined,
     onclick: () => new ScriptsOverview(item).render(true),
   });

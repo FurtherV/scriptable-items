@@ -1,8 +1,8 @@
 {
   "id": "scriptable-items",
-  "title": "Scriptable Items",
+  "title": "Scriptable Items for dnd5e",
   "description": "Allows you to attach one or more JS scripts to an item, which are triggered by user selectable triggers.",
-  "version": "0.1.0",
+  "version": "AUTOMATIC",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
