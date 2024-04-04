@@ -131,6 +131,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
       "token",
       "character",
       "trigger",
+      "optional",
       ...argNames,
       `{${this.command}\n}`,
     );
@@ -145,12 +146,14 @@ export class ScriptModel extends foundry.abstract.DataModel {
         token,
         character,
         trigger,
+        { ...scope },
         ...argValues,
       );
     } catch (err) {
       ui.notifications.error(
         "There was an error in your script syntax. See the console (F12) for details.",
       );
+      console.error(err);
     }
   }
 

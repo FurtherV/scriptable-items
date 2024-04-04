@@ -94,3 +94,41 @@ Hooks.on("dnd5e.renderChatMessage", (message, html) => {
     });
   });
 });
+
+Hooks.on("createItem", async (item, options, userId) => {
+  if (game.user.id !== userId) return;
+  if (item.actor == null) return;
+
+  const scripts = ScriptModel.getAll(item).filter((x) =>
+    x.triggers.has(TRIGGER.ADD_TO_ACTOR),
+  );
+  if (!scripts.length) return;
+
+  let script = scripts[0];
+  if (script.length > 1) {
+    const chosenScriptId = await ScriptChoiceDialog.create(scripts);
+    if (chosenScriptId == null) return;
+    script = scripts.find((x) => x.id === chosenScriptId);
+  }
+
+  await script.executeScript({ trigger: TRIGGER.ADD_TO_ACTOR });
+});
+
+Hooks.on("deleteItem", async (item, options, userId) => {
+  if (game.user.id !== userId) return;
+  if (item.actor == null) return;
+
+  const scripts = ScriptModel.getAll(item).filter((x) =>
+    x.triggers.has(TRIGGER.REMOVE_FROM_ACTOR),
+  );
+  if (!scripts.length) return;
+
+  let script = scripts[0];
+  if (script.length > 1) {
+    const chosenScriptId = await ScriptChoiceDialog.create(scripts);
+    if (chosenScriptId == null) return;
+    script = scripts.find((x) => x.id === chosenScriptId);
+  }
+
+  await script.executeScript({ trigger: TRIGGER.REMOVE_FROM_ACTOR });
+});

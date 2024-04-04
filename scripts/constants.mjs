@@ -7,6 +7,8 @@ const FLAG = {
 const TRIGGER = {
   BUTTON: "button",
   PRE_USE: "preUseItem",
+  ADD_TO_ACTOR: "addToActor",
+  REMOVE_FROM_ACTOR: "removeFromActor",
 };
 const SETTING = {
   HEADER_BUTTON_PERMISSION: "headerButtonPermission",

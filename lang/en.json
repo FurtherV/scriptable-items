@@ -2,7 +2,9 @@
   "SCRIPTABLE-ITEMS": {
     "Trigger": {
       "button": "On Button Click",
-      "preUseItem": "On Pre Use Item"
+      "preUseItem": "On Pre Use Item",
+      "addToActor": "When Added to Actor",
+      "removeFromActor": "When Removed from Actor"
     },
     "Script": {
       "Label": "Script",
@@ -12,7 +14,11 @@
     "Setting": {
       "headerButtonPermission": {
         "Name": "Button Permission Level",
-        "Hint": "The 'Scriptable Items' button in item sheets will be hidden for any user with a role less than the chosen role."
+        "Hint": "The minimum role required to see the 'Scriptable Items' button in the header of item sheets."
+      },
+      "showHeaderButtonLabel": {
+        "Name": "Display Button Label",
+        "Hint": "If checked, the button's label is displayed."
       }
     },
     "Dialog": {

@@ -11,24 +11,36 @@ Clicking this button opens an overview where you can edit that item's scripts.
 
 A script receives the following arguments (very similar to a normal Foundry macro!) when run:
 
-- `this` is a copy of the Script itself
-- `item` the item containing the script
-- `speaker` speaker data of the item's actor or the currently selected token or user's character
-- `actor` actor from the speaker data, usually the item's owner
-- `token` token from the speaker data
-- `character` the current user's character or null
-- `trigger` the trigger of the script, such as a button press or on item use.
+- `this` - is a copy of the Script itself
+- `item` - the item containing the script
+- `speaker` - speaker data of the item's Actor or the currently selected token or user's character
+- `actor` - actor from the speaker data, usually the item's owner
+- `token` - token from the speaker data
+- `character` - the current user's character or null
+- `trigger` - the trigger of the script, such as a button press or on item use.
   Is equal to `debug` when ran from the script's config sheet.
-- `message` the chat message which triggered the script (only `trigger === "button"`)
+- `optional` - an object containing additional, optional arguments
+  - `optional.message` - The chat message containing the clicked button (if `trigger === "button"` is true)
 
 Available triggers are currently:
 
-- When using the item (`dnd5e.preUseItem`)
+- `preUseItem` - When using the item (Hook is `dnd5e.preUseItem`)
   - If you want to also have normal item usage, you can return `true` from the script
   - If you want to use `item.use()` inside the script, you can use `item.use({}, {skipScripts: true})`
-- A button in the item's chat card
+- `button` A button in the item's chat card that triggers the script when clicked
+- `addToActor` When the item is added to an actor
+- `removeFromActor` When the item is removed from an actor
 
 ## Changelog
+
+### 0.2.0
+
+- Improved README
+- Improved localization
+- Refactored optional script arguments into an object
+- Added script triggers `addToActor` and `removeFromActor` which will execute the given script when the item is added
+  or removed from an actor
+- Added a module setting to toggle the visibility of the header button label
 
 ### 0.1.2
 
