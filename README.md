@@ -32,6 +32,10 @@ Available triggers are currently:
 - `removeFromActor` When the item is removed from an actor
 
 ## Changelog
+### 0.2.1
+
+- Updated links in module manifest
+- Updated license
 
 ### 0.2.0
 

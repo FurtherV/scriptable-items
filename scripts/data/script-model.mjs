@@ -109,7 +109,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
     const speaker = ChatMessage.implementation.getSpeaker({
       actor: item.actor,
     });
-    const character = game.user.character;
+    const character = game.user.character ?? null;
     const token = canvas.ready ? canvas.tokens.get(speaker.token) : null;
     const actor = token?.actor || game.actors.get(speaker.actor);
     trigger = trigger || "debug";
