@@ -46,6 +46,9 @@ env:
   # processed by this workflow.
   release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip"
 
+  # The URL to the release's HTML page
+  release_page_url: "https://github.com/${{github.repository}}/releases/${{github.event.release.tag_name}}"
+
 on:
   # Only run this workflow when a release is published.
   # To modify this workflow when other events occur, see:
@@ -94,9 +97,10 @@ jobs:
         with:
           files: "module.json"
         env:
-          version: ${{steps.get_version.outputs.version-without-v}}
+          version: ${{ steps.get_version.outputs.version-without-v }}
           manifest: ${{ env.latest_manifest_url }}
           download: ${{ env.release_module_url }}
+          changelog: ${{ env.release_page_url }}
           flags.hotReload: false
 
       # Set up Node

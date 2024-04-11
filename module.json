@@ -47,7 +47,6 @@
   "manifest": "https://github.com/FurtherV/scriptable-items/releases/latest/download/module.json",
   "download": "AUTOMATIC",
   "license": "https://raw.githubusercontent.com/FurtherV/scriptable-items/master/LICENSE",
-  "readme": "README.md",
-  "changelog": "https://raw.githubusercontent.com/FurtherV/scriptable-items/master/README.md",
+  "changelog": "AUTOMATIC",
   "bugs": "https://github.com/FurtherV/scriptable-items/issues"
 }
