@@ -67,12 +67,31 @@ Hooks.on("dnd5e.preDisplayCard", (item, data) => {
   el.innerHTML = data.content;
 
   // Add button for each script with button trigger to the card
-  const buttonContainer = el.querySelector(".card-buttons");
+  let buttonContainer = el.querySelector(".card-buttons");
+  if (buttonContainer == null) {
+    // There are no buttons yet on the chat card, so no container, adding a container...
+    buttonContainer = document.createElement("DIV");
+    buttonContainer.classList.add("card-buttons");
+    const parent = el.querySelector(".chat-card");
+    parent.insertBefore(buttonContainer, parent.children[1]);
+  }
+
   for (const script of scripts) {
     const newButton = document.createElement("BUTTON");
     newButton.setAttribute("data-action", `${MODULE_ID}-run`);
     newButton.setAttribute("data-script-id", script.id);
-    newButton.innerHTML = `<i class="fas fa-play"></i> Execute ${script.name}`;
+
+    let prefix = getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_PREFIX);
+    if (prefix !== "") {
+      prefix += " ";
+    }
+
+    let icon = getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON);
+    if (icon !== "") {
+      icon = `<i class="${icon}"></i> `;
+    }
+
+    newButton.innerHTML = `${icon}${prefix}${script.name}`;
     buttonContainer.append(newButton);
   }
 

@@ -32,6 +32,12 @@ Available triggers are currently:
 - `removeFromActor` When the item is removed from an actor
 
 ## Changelog
+
+### 0.2.2
+
+- Added [#4](https://github.com/FurtherV/scriptable-items/issues/4)
+- Fixed [#3](https://github.com/FurtherV/scriptable-items/issues/3)
+
 ### 0.2.1
 
 - Updated links in module manifest
