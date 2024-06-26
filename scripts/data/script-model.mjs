@@ -158,6 +158,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
   }
 
   /**
+   * Returns the id of this script.
    * @type {string}
    */
   get id() {
@@ -165,6 +166,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
   }
 
   /**
+   * Returns the triggers of this script as a formatted string.
    * @type {string}
    */
   get triggersText() {
@@ -176,6 +178,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
   }
 
   /**
+   * Returns the item this script belongs to.
    * @type {Item}
    */
   get item() {

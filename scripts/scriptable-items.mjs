@@ -56,26 +56,26 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
   return false;
 });
 
-Hooks.on("dnd5e.preDisplayCard", (item, data) => {
+Hooks.on("dnd5e.renderChatMessage", (message, html) => {
+  const item = message.getAssociatedItem();
+  if (!item) return;
+
   const scripts = ScriptModel.getAll(item).filter((x) =>
     x.triggers.has(TRIGGER.BUTTON),
   );
   if (!scripts.length) return;
 
-  // Convert cards HTML string to workable DOM element
-  const el = document.createElement("DIV");
-  el.innerHTML = data.content;
-
   // Add button for each script with button trigger to the card
-  let buttonContainer = el.querySelector(".card-buttons");
+  let buttonContainer = html.querySelector(".card-buttons");
   if (buttonContainer == null) {
     // There are no buttons yet on the chat card, so no container, adding a container...
     buttonContainer = document.createElement("DIV");
     buttonContainer.classList.add("card-buttons");
-    const parent = el.querySelector(".chat-card");
+    const parent = html.querySelector(".chat-card");
     parent.insertBefore(buttonContainer, parent.children[1]);
   }
 
+  // Create a button for each script
   for (const script of scripts) {
     const newButton = document.createElement("BUTTON");
     newButton.setAttribute("data-action", `${MODULE_ID}-run`);
@@ -95,16 +95,12 @@ Hooks.on("dnd5e.preDisplayCard", (item, data) => {
     buttonContainer.append(newButton);
   }
 
-  data.content = el.innerHTML;
-});
-
-Hooks.on("dnd5e.renderChatMessage", (message, html) => {
+  // Add a listener to each button
   html.querySelectorAll(`[data-action="${MODULE_ID}-run"]`).forEach((x) => {
     x.addEventListener("click", async (event) => {
       event.preventDefault();
       const scriptId = event.currentTarget.dataset.scriptId;
-      const itemUuid = message.getFlag("dnd5e", "use.itemUuid");
-      const item = await fromUuid(itemUuid);
+      const item = message.getAssociatedItem();
       const script = ScriptModel.getById(item, scriptId);
       await script.executeScript({
         trigger: TRIGGER.BUTTON,
