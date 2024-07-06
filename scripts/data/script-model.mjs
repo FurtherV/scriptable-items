@@ -5,6 +5,43 @@ export class ScriptModel extends foundry.abstract.DataModel {
 
   static DEFAULT_NAME = "New Script";
 
+  /** @inheritdoc */
+  static defineSchema() {
+    const fields = foundry.data.fields;
+    return {
+      _id: new fields.DocumentIdField({
+        initial: () => foundry.utils.randomID(),
+      }),
+      name: new fields.StringField({
+        required: true,
+        blank: false,
+        initial: () => this.DEFAULT_NAME,
+        label: "Name",
+      }),
+      img: new fields.FilePathField({
+        categories: ["IMAGE"],
+        initial: () => this.DEFAULT_ICON,
+        label: "Image",
+      }),
+      command: new fields.StringField({
+        required: true,
+        blank: true,
+        label: "Command",
+      }),
+      triggers: new fields.SetField(
+        new fields.StringField({
+          required: true,
+          blank: false,
+          label: "Trigger",
+        }),
+        {
+          required: true,
+          label: "Trigger Set",
+        },
+      ),
+    };
+  }
+
   /**
    * @param {Item} item
    * @param {ScriptModel} script
@@ -58,43 +95,6 @@ export class ScriptModel extends foundry.abstract.DataModel {
     const ids = Object.keys(item?.getFlag(MODULE_ID, FLAG.SCRIPTS) ?? {});
     if (!ids.length) return [];
     return ids.map((x) => this.getById(item, x));
-  }
-
-  /** @inheritdoc */
-  static defineSchema() {
-    const fields = foundry.data.fields;
-    return {
-      _id: new fields.DocumentIdField({
-        initial: () => foundry.utils.randomID(),
-      }),
-      name: new fields.StringField({
-        required: true,
-        blank: false,
-        initial: () => this.DEFAULT_NAME,
-        label: "Name",
-      }),
-      img: new fields.FilePathField({
-        categories: ["IMAGE"],
-        initial: () => this.DEFAULT_ICON,
-        label: "Image",
-      }),
-      command: new fields.StringField({
-        required: true,
-        blank: true,
-        label: "Command",
-      }),
-      triggers: new fields.SetField(
-        new fields.StringField({
-          required: true,
-          blank: false,
-          label: "Trigger",
-        }),
-        {
-          required: true,
-          label: "Trigger Set",
-        },
-      ),
-    };
   }
 
   /**

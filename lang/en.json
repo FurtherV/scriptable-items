@@ -9,7 +9,7 @@
     "Script": {
       "Label": "Script",
       "Save": "Save Script",
-      "Execute": "Execute Script"
+      "SaveAndExecute": "Save and Execute Script"
     },
     "Setting": {
       "headerButtonPermission": {

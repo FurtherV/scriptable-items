@@ -9,9 +9,6 @@
     "watch": "less-watch-compiler less styles scriptable-items.less"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.22.15",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^46.5.0",
     "less": "^4.2.0",
     "less-watch-compiler": "^1.16.3",
     "prettier": "^3.2.5"

@@ -4,10 +4,9 @@
   "description": "Allows you to attach one or more JS scripts to an item, which are triggered by user selectable triggers.",
   "version": "AUTOMATIC",
   "library": "false",
-  "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 11,
-    "verified": 11
+    "minimum": 12,
+    "verified": 12
   },
   "authors": [
     {
@@ -22,8 +21,8 @@
         "id": "dnd5e",
         "type": "system",
         "compatibility": {
-          "minimum": "3.1.0",
-          "maximum": "3.1.9"
+          "minimum": "3.2.0",
+          "maximum": "3.2.9"
         }
       }
     ]
