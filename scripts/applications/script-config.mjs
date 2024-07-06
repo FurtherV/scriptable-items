@@ -71,8 +71,6 @@ export class ScriptConfig extends FormApplication {
 
   /** @@inheritdoc */
   async _updateObject(event, formData) {
-    console.debug(formData);
-
     formData.triggers = formData.triggers || [];
 
     try {
