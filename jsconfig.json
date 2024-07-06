@@ -1,16 +1,15 @@
-{
-  "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES6"
-  },
-  "exclude": ["node_modules", "**/node_modules/*"],
-  "include": [
-    "scripts/**/*.mjs",
-    "dnd5e/**/*.mjs",
-    "foundry/**/*.js",
-    "foundry/**/*.mjs"
-  ],
-  "typeAcquisition": {
-    "include": ["jquery"]
+  {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "target": "ES6"
+    },
+    "exclude": ["node_modules", "**/node_modules/*"],
+    "include": [
+      "scripts/**/*.mjs",
+      "dnd5e/**/*.mjs",
+      "foundry/**/*.mjs"
+    ],
+    "typeAcquisition": {
+      "include": ["jquery"]
+    }
   }
-}
