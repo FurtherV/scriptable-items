@@ -3,6 +3,7 @@ const LANG_ID = MODULE_ID.toUpperCase();
 const TEMPLATES_FOLDER = `modules/${MODULE_ID}/templates`;
 const FLAG = {
   SCRIPTS: "scripts",
+  LINKED_ITEMS: "linkedItems",
 };
 const TRIGGER = {
   BUTTON: "button",

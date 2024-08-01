@@ -3,6 +3,8 @@
 
 # Scriptable Items
 
+## Description
+
 A module for the Foundry `dnd5e` system, which allows you to attach one or more JS scripts to an item.
 Each of these scripts can have multiple triggers that determine when or how the script is executed.
 
@@ -21,6 +23,7 @@ A script receives the following arguments (very similar to a normal Foundry macr
   Is equal to `debug` when ran from the script's config sheet.
 - `optional` - an object containing additional, optional arguments
   - `optional.message` - The chat message containing the clicked button (if `trigger === "button"` is true)
+- `api` - An object containing API functions of this module, equal to `game.modules.get("scriptable-items").api`
 
 Available triggers are currently:
 
@@ -30,3 +33,37 @@ Available triggers are currently:
 - `button` A button in the item's chat card that triggers the script when clicked
 - `addToActor` When the item is added to an actor
 - `removeFromActor` When the item is removed from an actor
+
+## API
+
+The modules provides some API functions, currently these are limited to helper function that allow one to create linked items.
+A linked item is added to an actor if its parent item is added to it and removed if its parent item is removed.
+
+The API can be accessed via `api` inside an item's script or via `game.modules.get("scriptable-items").api`.
+
+The following functions are available:
+
+```js
+/**
+ * Adds linked items to the main item and sets a flag on the main item with the linked item IDs.
+ *
+ * @async
+ * @function addLinkedItems
+ * @param {Object} mainItem - The main item to which linked items will be added.
+ * @param {...(Item|string|Object)} linkedItems - The linked items to add. Can be instances of Item, strings (name, ID, or UUID), or item data objects.
+ * @returns {Promise<void>}
+ */
+```
+
+```js
+/**
+ * Removes linked items from the main item and unsets the flag on the main item.
+ *
+ * @async
+ * @function removeLinkedItems
+ * @param {Object} mainItem - The main item from which linked items will be removed.
+ * @param {...(Item|string)} linkedItems - The linked items to remove. Can be instances of Item or strings (name or ID). If no linked items are provided, it will attempt to remove items based on the flag set on the main item.
+ * @returns {Promise<void>}
+ */
+async function removeLinkedItems(mainItem, ...linkedItems)
+```

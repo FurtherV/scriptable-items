@@ -21,12 +21,12 @@
         "Hint": "If checked, the button's label is displayed."
       },
       "chatCardScriptButtonPrefix": {
-        "Name": "Chat Card Button Prefix",
-        "Hint": "Sets the prefix for the script name shown on script chat card buttons. If empty, the prefix is skipped."
+        "Name": "Default Chat Card Button Prefix",
+        "Hint": "Sets the default prefix for the script name shown on script chat card buttons. If empty, the prefix is skipped."
       },
       "chatCardScriptButtonIcon": {
-        "Name": "Chat Card Button Icon",
-        "Hint": "Sets the icon classes for the icon shown on script chat card buttons. If empty, no icon will be shown."
+        "Name": "Default Chat Card Button Icon",
+        "Hint": "Sets the default icon classes for the icon shown on script chat card buttons. If empty, no icon will be shown."
       }
     },
     "Dialog": {

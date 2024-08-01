@@ -2,8 +2,8 @@ import { FLAG, LANG_ID, MODULE_ID } from "../constants.mjs";
 
 export class ScriptModel extends foundry.abstract.DataModel {
   static DEFAULT_ICON = "icons/svg/dice-target.svg";
-
   static DEFAULT_NAME = "New Script";
+  static DEFAULT_SCRIPT = `console.info({script: this, item, speaker, actor, token, character, trigger, optional});`;
 
   /** @inheritdoc */
   static defineSchema() {
@@ -27,6 +27,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
         required: true,
         blank: true,
         label: "Command",
+        initial: () => this.DEFAULT_SCRIPT,
       }),
       triggers: new fields.SetField(
         new fields.StringField({
@@ -131,6 +132,7 @@ export class ScriptModel extends foundry.abstract.DataModel {
       "token",
       "character",
       "trigger",
+      "api",
       "optional",
       ...argNames,
       `{${this.command}\n}`,
@@ -146,7 +148,8 @@ export class ScriptModel extends foundry.abstract.DataModel {
         token,
         character,
         trigger,
-        { ...scope },
+        game.modules.get(MODULE_ID).api,
+        { ...scope }, // the 'optional' from above
         ...argValues,
       );
     } catch (err) {

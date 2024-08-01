@@ -3,13 +3,15 @@
  */
 
 import { ScriptChoiceDialog } from "./applications/script-choice-dialog.mjs";
-import { MODULE_ID, SETTING, TRIGGER } from "./constants.mjs";
+import { MODULE_ID, SETTING, TEMPLATES_FOLDER, TRIGGER } from "./constants.mjs";
 import { ScriptsOverview } from "./applications/scripts-overview.mjs";
 import { getSetting, registerModuleSettings } from "./settings.mjs";
 import { ScriptModel } from "./data/script-model.mjs";
+import { registerModuleApi } from "./api.mjs";
 
 Hooks.once("init", () => {
   registerModuleSettings();
+  registerModuleApi();
 });
 
 Hooks.on("getItemSheetHeaderButtons", (app, buttons) => {
@@ -56,7 +58,7 @@ Hooks.on("dnd5e.preUseItem", (item, config, options) => {
   return false;
 });
 
-Hooks.on("dnd5e.renderChatMessage", (message, html) => {
+Hooks.on("dnd5e.renderChatMessage", async (message, html) => {
   const item = message.getAssociatedItem();
   if (!item) return;
 
@@ -78,25 +80,27 @@ Hooks.on("dnd5e.renderChatMessage", (message, html) => {
   // Create a button for each script
   for (const script of scripts) {
     const newButton = document.createElement("BUTTON");
-    newButton.setAttribute("data-action", `${MODULE_ID}-run`);
-    newButton.setAttribute("data-script-id", script.id);
 
-    let prefix = getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_PREFIX);
-    if (prefix !== "") {
-      prefix += " ";
-    }
+    const buttonHtml = await renderTemplate(
+      `${TEMPLATES_FOLDER}/chat-card-button.hbs`,
+      {
+        action: `${MODULE_ID}-execute`,
+        id: script.id,
+        iconClasses: getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON),
+        prefix: getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_PREFIX),
+        name: script.name,
+      },
+    );
 
-    let icon = getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON);
-    if (icon !== "") {
-      icon = `<i class="${icon}"></i> `;
-    }
-
-    newButton.innerHTML = `${icon}${prefix}${script.name}`;
     buttonContainer.append(newButton);
+
+    // Outer HTML can only be set if element has a parent...
+    newButton.outerHTML = buttonHtml;
   }
 
   // Add a listener to each button
-  html.querySelectorAll(`[data-action="${MODULE_ID}-run"]`).forEach((x) => {
+  // The client that clicks the button executes the script, they might lack permissions though!
+  html.querySelectorAll(`[data-action="${MODULE_ID}-execute"]`).forEach((x) => {
     x.addEventListener("click", async (event) => {
       event.preventDefault();
       const scriptId = event.currentTarget.dataset.scriptId;
@@ -111,6 +115,7 @@ Hooks.on("dnd5e.renderChatMessage", (message, html) => {
 });
 
 Hooks.on("createItem", async (item, options, userId) => {
+  // Execute only locally
   if (game.user.id !== userId) return;
   if (item.actor == null) return;
 
@@ -119,17 +124,13 @@ Hooks.on("createItem", async (item, options, userId) => {
   );
   if (!scripts.length) return;
 
-  let script = scripts[0];
-  if (script.length > 1) {
-    const chosenScriptId = await ScriptChoiceDialog.create(scripts);
-    if (chosenScriptId == null) return;
-    script = scripts.find((x) => x.id === chosenScriptId);
+  for (const script of scripts) {
+    await script.executeScript({ trigger: TRIGGER.ADD_TO_ACTOR });
   }
-
-  await script.executeScript({ trigger: TRIGGER.ADD_TO_ACTOR });
 });
 
 Hooks.on("deleteItem", async (item, options, userId) => {
+  // Execute only locally
   if (game.user.id !== userId) return;
   if (item.actor == null) return;
 
@@ -138,12 +139,7 @@ Hooks.on("deleteItem", async (item, options, userId) => {
   );
   if (!scripts.length) return;
 
-  let script = scripts[0];
-  if (script.length > 1) {
-    const chosenScriptId = await ScriptChoiceDialog.create(scripts);
-    if (chosenScriptId == null) return;
-    script = scripts.find((x) => x.id === chosenScriptId);
+  for (const script of scripts) {
+    await script.executeScript({ trigger: TRIGGER.REMOVE_FROM_ACTOR });
   }
-
-  await script.executeScript({ trigger: TRIGGER.REMOVE_FROM_ACTOR });
 });
