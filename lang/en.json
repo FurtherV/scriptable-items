@@ -18,7 +18,7 @@
       },
       "showHeaderButtonLabel": {
         "Name": "Display Button Label",
-        "Hint": "If checked, the button's label is displayed."
+        "Hint": "If checked, the label is displayed in the header of applicable item sheets."
       },
       "chatCardScriptButtonPrefix": {
         "Name": "Default Chat Card Button Prefix",

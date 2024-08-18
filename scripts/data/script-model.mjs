@@ -1,4 +1,5 @@
-import { FLAG, LANG_ID, MODULE_ID } from "../constants.mjs";
+import { FLAG, LANG_ID, MODULE_ID, SETTING } from "../constants.mjs";
+import { getSetting } from "../settings.mjs";
 
 export class ScriptModel extends foundry.abstract.DataModel {
   static DEFAULT_ICON = "icons/svg/dice-target.svg";
@@ -40,6 +41,17 @@ export class ScriptModel extends foundry.abstract.DataModel {
           label: "Trigger Set",
         },
       ),
+      buttonIconClasses: new fields.StringField({
+        required: false,
+        blank: true,
+        label: "Button Icon Classes",
+        initial: () => getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON),
+      }),
+      buttonText: new fields.StringField({
+        required: false,
+        blank: true,
+        label: "Button Text",
+      }),
     };
   }
 

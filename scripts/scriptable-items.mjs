@@ -20,7 +20,7 @@ Hooks.on("getItemSheetHeaderButtons", (app, buttons) => {
   const item = app.document;
   buttons.unshift({
     class: MODULE_ID,
-    icon: "fas fa-play",
+    icon: "fa-solid fa-code",
     label: getSetting(SETTING.SHOW_HEADER_BUTTON_LABEL)
       ? "Scriptable Items"
       : undefined,
@@ -86,9 +86,9 @@ Hooks.on("dnd5e.renderChatMessage", async (message, html) => {
       {
         action: `${MODULE_ID}-execute`,
         id: script.id,
-        iconClasses: getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON),
-        prefix: getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_PREFIX),
-        name: script.name,
+        iconClasses: script.buttonIconClasses,
+        prefix: "",
+        name: script.buttonText ? script.buttonText : script.name,
       },
     );
 

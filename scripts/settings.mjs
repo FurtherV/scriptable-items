@@ -32,20 +32,12 @@ export function registerModuleSettings() {
     default: true,
   });
 
-  _registerSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_PREFIX, {
-    scope: "world",
-    config: true,
-    requiresReload: false,
-    type: String,
-    default: "Execute",
-  });
-
   _registerSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON, {
     scope: "world",
-    config: true,
+    config: false,
     requiresReload: false,
     type: String,
-    default: `fas fa-play`,
+    default: `fa-solid fa-code`,
   });
 }
 
