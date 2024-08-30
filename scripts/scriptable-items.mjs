@@ -62,9 +62,12 @@ Hooks.on("dnd5e.renderChatMessage", async (message, html) => {
   const item = message.getAssociatedItem();
   if (!item) return;
 
-  const scripts = ScriptModel.getAll(item).filter((x) =>
-    x.triggers.has(TRIGGER.BUTTON),
-  );
+  const scripts = ScriptModel.getAll(item).filter((x) => {
+    return (
+      x.triggers.has(TRIGGER.BUTTON) &&
+      item.testUserPermission(game.user, x.buttonPermission)
+    );
+  });
   if (!scripts.length) return;
 
   // Add button for each script with button trigger to the card

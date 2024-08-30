@@ -42,6 +42,11 @@ export class ScriptConfig extends FormApplication {
     const context = super.getData();
 
     context.data = this.script;
+    context.buttonPermissionChoices = Object.fromEntries(
+      Object.entries(CONST.DOCUMENT_OWNERSHIP_LEVELS).filter(([k, v]) =>
+        this.script.schema.fields.buttonPermission.choices.includes(v),
+      ),
+    );
 
     context.triggers = Object.values(TRIGGER).reduce((acc, x) => {
       acc[x] = {
