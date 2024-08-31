@@ -65,7 +65,7 @@ Hooks.on("dnd5e.renderChatMessage", async (message, html) => {
   const scripts = ScriptModel.getAll(item).filter((x) => {
     return (
       x.triggers.has(TRIGGER.BUTTON) &&
-      item.testUserPermission(game.user, x.buttonPermission)
+      item.testUserPermission(game.user, x.button.permission)
     );
   });
   if (!scripts.length) return;
@@ -89,9 +89,9 @@ Hooks.on("dnd5e.renderChatMessage", async (message, html) => {
       {
         action: `${MODULE_ID}-execute`,
         id: script.id,
-        iconClasses: script.buttonIconClasses,
+        iconClasses: script.button.iconClasses,
         prefix: "",
-        name: script.buttonText ? script.buttonText : script.name,
+        name: script.button.text ?? script.name,
       },
     );
 

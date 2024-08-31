@@ -41,27 +41,29 @@ export class ScriptModel extends foundry.abstract.DataModel {
           label: "Trigger Set",
         },
       ),
-      buttonPermission: new fields.NumberField({
-        required: true,
-        integer: true,
-        positive: true,
-        choices: [
-          CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-          CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
-          CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED,
-        ],
-        initial: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-      }),
-      buttonIconClasses: new fields.StringField({
-        required: false,
-        blank: true,
-        label: "Button Icon Classes",
-        initial: () => getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON),
-      }),
-      buttonText: new fields.StringField({
-        required: false,
-        blank: true,
-        label: "Button Text",
+      button: new fields.SchemaField({
+        permission: new fields.NumberField({
+          required: true,
+          integer: true,
+          positive: true,
+          choices: [
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED,
+          ],
+          initial: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+        }),
+        iconClasses: new fields.StringField({
+          required: false,
+          blank: true,
+          label: "Button Icon Classes",
+          initial: () => getSetting(SETTING.CHAT_CARD_SCRIPT_BUTTON_ICON),
+        }),
+        text: new fields.StringField({
+          required: false,
+          blank: false,
+          label: "Button Text",
+        }),
       }),
     };
   }

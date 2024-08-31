@@ -41,10 +41,13 @@ export class ScriptConfig extends FormApplication {
   getData(options = {}) {
     const context = super.getData();
 
+    // Data context is the script
     context.data = this.script;
-    context.buttonPermissionChoices = Object.fromEntries(
+
+    // Get available choices based on script data model
+    context.permissionChoices = Object.fromEntries(
       Object.entries(CONST.DOCUMENT_OWNERSHIP_LEVELS).filter(([k, v]) =>
-        this.script.schema.fields.buttonPermission.choices.includes(v),
+        this.script.schema.fields.button.fields.permission.choices.includes(v),
       ),
     );
 

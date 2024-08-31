@@ -39,5 +39,3 @@ export class ScriptChoiceDialog extends Dialog {
     });
   }
 }
-
-globalThis["ScriptChoiceDialog"] = ScriptChoiceDialog;

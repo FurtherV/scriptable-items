@@ -18,20 +18,21 @@
         <fieldset>
             <div class="form-group">
                 <label>Required Permissions</label>
-                <select name="buttonPermission">
-                    {{selectOptions buttonPermissionChoices selected=data.buttonPermission inverted=true}}
+                <select name="button.permission">
+                    {{selectOptions permissionChoices selected=data.button.permission inverted=true}}
                 </select>
+                <p class="hint">Required permission, of the item or its owning actor, to see and use the button.</p>
             </div>
             <div class="form-group">
                 <label>Icon</label>
-                <input name="buttonIconClasses" type="text" value="{{data.buttonIconClasses}}"
+                <input name="button.iconClasses" type="text" value="{{data.button.iconClasses}}"
                     placeholder="fa-solid fa-code" />
                 <p class="hint">CSS classes used for the icon of the button. If
                     empty, no icon will be shown.</p>
             </div>
             <div class="form-group">
                 <label>Text</label>
-                <input name="buttonText" type="text" value="{{data.buttonText}}" placeholder="{{data.name}}" />
+                <input name="button.text" type="text" value="{{data.button.text}}" placeholder="{{data.name}}" />
                 <p class="hint">Text displayed on the button. Is always right of
                     the icon and defaults to the scripts name if left empty.</p>
             </div>
